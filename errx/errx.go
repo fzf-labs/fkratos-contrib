@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"os"
 	"path/filepath"
 	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 
-	"github.com/fzf-labs/fpkg/util/fileutil"
 	"github.com/go-kratos/kratos/v2/errors"
 	http2 "github.com/go-kratos/kratos/v2/transport/http"
 )
@@ -205,7 +205,7 @@ func (e *ErrorManager) Export(path string) {
 			}
 			str += fmt.Sprintln(tmpStr)
 		}
-		err := fileutil.WriteContentCover(filepath.Join(path, "code.md"), str)
+		err := WriteContentCover(filepath.Join(path, "code.md"), str)
 		if err != nil {
 			return
 		}
@@ -213,4 +213,21 @@ func (e *ErrorManager) Export(path string) {
 	} else {
 		slog.Info("错误码不存在!!!")
 	}
+}
+
+func WriteContentCover(filePath, content string) error {
+	fileDir := filepath.Dir(filePath)
+	if err := os.MkdirAll(fileDir, 0775); err != nil {
+		return err
+	}
+	dstFile, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0665)
+	if err != nil {
+		return err
+	}
+	defer dstFile.Close()
+	_, err = dstFile.WriteString(content)
+	if err != nil {
+		return err
+	}
+	return err
 }

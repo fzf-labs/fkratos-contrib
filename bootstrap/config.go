@@ -1,11 +1,10 @@
 package bootstrap
 
 import (
+	v2 "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 	"os"
 	"path/filepath"
 	"strings"
-
-	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 
 	"github.com/go-kratos/kratos/v2/config"
 	"github.com/go-kratos/kratos/v2/log"
@@ -61,38 +60,38 @@ func NewConfigProvider(configPath string) config.Config {
 }
 
 // LoadBootstrapConfig 加载程序引导配置
-func LoadBootstrapConfig(configPath string) *conf.Bootstrap {
+func LoadBootstrapConfig(configPath string) *v2.Bootstrap {
 	cfg := NewConfigProvider(configPath)
 	if err := cfg.Load(); err != nil {
 		panic(err)
 	}
 
-	var bc conf.Bootstrap
+	var bc v2.Bootstrap
 	if err := cfg.Scan(&bc); err != nil {
 		panic(err)
 	}
 
 	if bc.Server == nil {
-		bc.Server = &conf.Server{}
+		bc.Server = &v2.Server{}
 		_ = cfg.Scan(&bc.Server)
 	}
 
 	if bc.Data == nil {
-		bc.Data = &conf.Data{}
+		bc.Data = &v2.Data{}
 		_ = cfg.Scan(&bc.Data)
 	}
 	if bc.Trace == nil {
-		bc.Trace = &conf.Tracer{}
+		bc.Trace = &v2.Tracer{}
 		_ = cfg.Scan(&bc.Trace)
 	}
 
 	if bc.Logger == nil {
-		bc.Logger = &conf.Logger{}
+		bc.Logger = &v2.Logger{}
 		_ = cfg.Scan(&bc.Logger)
 	}
 
 	if bc.Registry == nil {
-		bc.Registry = &conf.Registry{}
+		bc.Registry = &v2.Registry{}
 		_ = cfg.Scan(&bc.Registry)
 	}
 	return &bc
@@ -110,7 +109,7 @@ func pathExists(path string) bool {
 }
 
 // LoadRemoteConfigSourceConfigs 加载远程配置源的本地配置
-func LoadRemoteConfigSourceConfigs(configPath string) (*conf.RemoteConfig, error) {
+func LoadRemoteConfigSourceConfigs(configPath string) (*v2.RemoteConfig, error) {
 	configPath = configPath + "/" + remoteConfigSourceConfigFile
 	if !pathExists(configPath) {
 		return nil, nil
@@ -132,7 +131,7 @@ func LoadRemoteConfigSourceConfigs(configPath string) (*conf.RemoteConfig, error
 		return nil, err
 	}
 
-	var rc conf.Bootstrap
+	var rc v2.Bootstrap
 	if err := cfg.Scan(&rc); err != nil {
 		return nil, err
 	}
@@ -152,7 +151,7 @@ const (
 )
 
 // NewRemoteConfigSource 创建一个远程配置源
-func NewRemoteConfigSource(c *conf.RemoteConfig) config.Source {
+func NewRemoteConfigSource(c *v2.RemoteConfig) config.Source {
 	switch ConfigType(c.Type) {
 	default:
 		fallthrough
@@ -186,7 +185,7 @@ func NewFileConfigSource(filePath string) config.Source {
 }
 
 // NewNacosConfigSource 创建一个远程配置源 - Nacos
-func NewNacosConfigSource(c *conf.RemoteConfig) config.Source {
+func NewNacosConfigSource(c *v2.RemoteConfig) config.Source {
 	srvConf := []nacosConstant.ServerConfig{
 		*nacosConstant.NewServerConfig(c.Nacos.Address, c.Nacos.Port),
 	}
@@ -219,7 +218,7 @@ func NewNacosConfigSource(c *conf.RemoteConfig) config.Source {
 }
 
 // NewEtcdConfigSource 创建一个远程配置源 - Etcd
-func NewEtcdConfigSource(c *conf.RemoteConfig) config.Source {
+func NewEtcdConfigSource(c *v2.RemoteConfig) config.Source {
 	cfg := etcdClient.Config{
 		Endpoints:   c.Etcd.Endpoints,
 		DialTimeout: c.Etcd.Timeout.AsDuration(),
@@ -240,7 +239,7 @@ func NewEtcdConfigSource(c *conf.RemoteConfig) config.Source {
 }
 
 // NewConsulConfigSource 创建一个远程配置源 - Consul
-func NewConsulConfigSource(c *conf.RemoteConfig) config.Source {
+func NewConsulConfigSource(c *v2.RemoteConfig) config.Source {
 	cfg := consulApi.DefaultConfig()
 	cfg.Address = c.Consul.Address
 	cfg.Scheme = c.Consul.Scheme
@@ -261,7 +260,7 @@ func NewConsulConfigSource(c *conf.RemoteConfig) config.Source {
 }
 
 // NewApolloConfigSource 创建一个远程配置源 - Apollo
-func NewApolloConfigSource(c *conf.RemoteConfig) config.Source {
+func NewApolloConfigSource(c *v2.RemoteConfig) config.Source {
 	source := apolloKratos.NewSource(
 		apolloKratos.WithAppID(c.Apollo.AppId),
 		apolloKratos.WithCluster(c.Apollo.Cluster),
@@ -274,7 +273,7 @@ func NewApolloConfigSource(c *conf.RemoteConfig) config.Source {
 }
 
 // NewKubernetesConfigSource 创建一个远程配置源 - Kubernetes
-func NewKubernetesConfigSource(c *conf.RemoteConfig) config.Source {
+func NewKubernetesConfigSource(c *v2.RemoteConfig) config.Source {
 	source := k8sKratos.NewSource(
 		k8sKratos.Namespace(c.Kubernetes.Namespace),
 		k8sKratos.LabelSelector(""),

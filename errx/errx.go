@@ -2,7 +2,6 @@ package errx
 
 import (
 	"fmt"
-	"log/slog"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -13,6 +12,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/errors"
 	http2 "github.com/go-kratos/kratos/v2/transport/http"
+	"golang.org/x/exp/slog"
 )
 
 const (
@@ -171,7 +171,12 @@ func GetMessage(manager *ErrorManager, err *errors.Error, lang string) string {
 		msg = manager.i18n[lang][err.Reason]
 	}
 	if err.Metadata["fmt"] != "" {
-		msg = fmt.Sprintf(msg, err.Metadata["fmt"])
+		splitMsg := make([]interface{}, 0)
+		split := strings.Split(err.Metadata["fmt"], ",")
+		for _, v := range split {
+			splitMsg = append(splitMsg, v)
+		}
+		msg = fmt.Sprintf(msg, splitMsg...)
 		delete(err.Metadata, "fmt")
 	}
 	return msg
@@ -205,7 +210,7 @@ func (e *ErrorManager) Export(path string) {
 			}
 			str += fmt.Sprintln(tmpStr)
 		}
-		err := WriteContentCover(filepath.Join(path, "code.md"), str)
+		err := writeContentCover(filepath.Join(path, "code.md"), str)
 		if err != nil {
 			return
 		}
@@ -215,7 +220,7 @@ func (e *ErrorManager) Export(path string) {
 	}
 }
 
-func WriteContentCover(filePath, content string) error {
+func writeContentCover(filePath, content string) error {
 	fileDir := filepath.Dir(filePath)
 	if err := os.MkdirAll(fileDir, 0775); err != nil {
 		return err

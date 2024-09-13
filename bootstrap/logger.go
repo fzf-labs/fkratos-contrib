@@ -1,9 +1,8 @@
 package bootstrap
 
 import (
-	"os"
-
 	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
+	"os"
 
 	aliyunLogger "github.com/go-kratos/kratos/contrib/log/aliyun/v2"
 	tencentLogger "github.com/go-kratos/kratos/contrib/log/tencent/v2"

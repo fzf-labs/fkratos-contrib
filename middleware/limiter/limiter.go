@@ -2,7 +2,6 @@ package limiter
 
 import (
 	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
-
 	"github.com/go-kratos/aegis/ratelimit/bbr"
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/ratelimit"

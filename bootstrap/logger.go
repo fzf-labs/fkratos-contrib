@@ -1,20 +1,19 @@
 package bootstrap
 
 import (
-	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 	"os"
 
+	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 	aliyunLogger "github.com/go-kratos/kratos/contrib/log/aliyun/v2"
 	tencentLogger "github.com/go-kratos/kratos/contrib/log/tencent/v2"
 	zapLogger "github.com/go-kratos/kratos/contrib/log/zap/v2"
 	zeroLogger "github.com/go-kratos/kratos/contrib/log/zerolog/v2"
+	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/rs/zerolog"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
-
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 )
 
 type LoggerType string

@@ -1,24 +1,11 @@
-version: v1
-
+version: v2
 managed:
   enabled: true
-  optimize_for: SPEED
-  go_package_prefix:
-    default: api
-    except:
-      - buf.build/googleapis/googleapis
-      - buf.build/kratos/apis
-      - buf.build/gnostic/gnostic
-      - buf.build/gogo/protobuf
-      - buf.build/envoyproxy/protoc-gen-validate
-      - buf.build/bufbuild/protovalidate
-
+  override:
+    - file_option: go_package_prefix
+      value: github.com/fzf-labs/fkratos-contrib/api/conf/v1
 plugins:
-  - plugin: buf.build/protocolbuffers/go
-    out: api
-    opt:
-      - paths=source_relative
-  - plugin: buf.build/bufbuild/validate-go
-    out: api
+  - remote: buf.build/protocolbuffers/go
+    out: .
     opt:
       - paths=source_relative

@@ -1,37 +1,25 @@
 package bootstrap
 
 import (
-	v2 "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/go-kratos/kratos/v2/config"
-	"github.com/go-kratos/kratos/v2/log"
-	"google.golang.org/grpc"
-
-	// file
-	fileKratos "github.com/go-kratos/kratos/v2/config/file"
-
-	// etcd
-	etcdKratos "github.com/go-kratos/kratos/contrib/config/etcd/v2"
-	etcdClient "go.etcd.io/etcd/client/v3"
-
-	// consul
+	v2 "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
+	apolloKratos "github.com/go-kratos/kratos/contrib/config/apollo/v2"
 	consulKratos "github.com/go-kratos/kratos/contrib/config/consul/v2"
-	consulApi "github.com/hashicorp/consul/api"
-
-	// nacos
+	etcdKratos "github.com/go-kratos/kratos/contrib/config/etcd/v2"
+	k8sKratos "github.com/go-kratos/kratos/contrib/config/kubernetes/v2"
 	nacosKratos "github.com/go-kratos/kratos/contrib/config/nacos/v2"
+	"github.com/go-kratos/kratos/v2/config"
+	fileKratos "github.com/go-kratos/kratos/v2/config/file"
+	"github.com/go-kratos/kratos/v2/log"
+	consulApi "github.com/hashicorp/consul/api"
 	nacosClients "github.com/nacos-group/nacos-sdk-go/clients"
 	nacosConstant "github.com/nacos-group/nacos-sdk-go/common/constant"
 	nacosVo "github.com/nacos-group/nacos-sdk-go/vo"
-
-	// apollo
-	apolloKratos "github.com/go-kratos/kratos/contrib/config/apollo/v2"
-
-	// kubernetes
-	k8sKratos "github.com/go-kratos/kratos/contrib/config/kubernetes/v2"
+	etcdClient "go.etcd.io/etcd/client/v3"
+	"google.golang.org/grpc"
 	k8sUtil "k8s.io/client-go/util/homedir"
 )
 
@@ -222,7 +210,7 @@ func NewEtcdConfigSource(c *v2.RemoteConfig) config.Source {
 	cfg := etcdClient.Config{
 		Endpoints:   c.Etcd.Endpoints,
 		DialTimeout: c.Etcd.Timeout.AsDuration(),
-		DialOptions: []grpc.DialOption{grpc.WithBlock()},
+		DialOptions: []grpc.DialOption{},
 	}
 
 	cli, err := etcdClient.New(cfg)

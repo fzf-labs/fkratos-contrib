@@ -18,12 +18,14 @@ message Middleware {
   RateLimiter limiter = 9; // 限流器配置
   Metrics metrics = 10; // 性能指标配置
 }
+
 // 限流器
 message RateLimiter {
   google.protobuf.Duration window = 1; // 窗口时间
   int64 bucket = 2; // 桶大小
   int64 cpuThreshold = 3; // CPU阈值
 }
+
 // 性能指标
 message Metrics {
   bool histogram = 1; // 直方图

@@ -2,16 +2,20 @@ package ctx
 
 import (
 	"context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"net/http"
 	"time"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/middleware"
 )
 
-var RequestCanceledErr = errors.New(http.StatusConflict, "RequestCanceledErr", "request canceled")
+var (
+	RequestCanceledErr = errors.New(http.StatusConflict, "RequestCanceledErr", "request canceled")
+	RequestTimeoutErr  = errors.New(http.StatusConflict, "RequestTimeoutErr", "request timeout")
+)
 
 // Canceled 用于处理请求取消或超时的情况
 func Canceled(timeout time.Duration) middleware.Middleware {
@@ -24,7 +28,7 @@ func Canceled(timeout time.Duration) middleware.Middleware {
 					return nil, RequestCanceledErr
 				}
 				if errors.Is(ctxErr, context.DeadlineExceeded) {
-					return nil, RequestCanceledErr
+					return nil, RequestTimeoutErr
 				}
 			}
 			if err != nil {
@@ -34,7 +38,7 @@ func Canceled(timeout time.Duration) middleware.Middleware {
 					case codes.Canceled:
 						return nil, RequestCanceledErr
 					case codes.DeadlineExceeded:
-						return nil, RequestCanceledErr
+						return nil, RequestTimeoutErr
 					}
 				}
 			}

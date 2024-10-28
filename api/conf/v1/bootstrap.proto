@@ -2,14 +2,14 @@ syntax = "proto3";
 
 package conf;
 
-import "conf/v1/business.proto";
-import "conf/v1/client.proto";
-import "conf/v1/data.proto";
-import "conf/v1/logger.proto";
-import "conf/v1/registry.proto";
-import "conf/v1/remoteconfig.proto";
-import "conf/v1/server.proto";
-import "conf/v1/tracer.proto";
+import "api/conf/v1/business.proto";
+import "api/conf/v1/client.proto";
+import "api/conf/v1/data.proto";
+import "api/conf/v1/logger.proto";
+import "api/conf/v1/registry.proto";
+import "api/conf/v1/remoteconfig.proto";
+import "api/conf/v1/server.proto";
+import "api/conf/v1/tracer.proto";
 
 option go_package = "github.com/fzf-labs/fkratos-contrib/api/conf/v1;v1";
 

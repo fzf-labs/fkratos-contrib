@@ -2,8 +2,9 @@ syntax = "proto3";
 
 package conf;
 
+import "api/conf/v1/middleware.proto";
 import "google/protobuf/duration.proto";
-import "conf/v1/middleware.proto";
+
 option go_package = "github.com/fzf-labs/fkratos-contrib/api/conf/v1;v1";
 
 // 客户端
@@ -20,6 +21,6 @@ message Client {
     Middleware middleware = 2;
   }
 
-  HTTP http = 1;  // HTTP服务
-  GRPC grpc = 2;  // GRPC服务
+  HTTP http = 1; // HTTP服务
+  GRPC grpc = 2; // GRPC服务
 }

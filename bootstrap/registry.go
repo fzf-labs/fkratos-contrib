@@ -1,22 +1,20 @@
 package bootstrap
 
 import (
-	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 	"path/filepath"
 
-	etcdKratos "github.com/go-kratos/kratos/contrib/registry/etcd/v2"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/registry"
-	etcdClient "go.etcd.io/etcd/client/v3"
-
+	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
 	consulKratos "github.com/go-kratos/kratos/contrib/registry/consul/v2"
-	consulClient "github.com/hashicorp/consul/api"
-
+	etcdKratos "github.com/go-kratos/kratos/contrib/registry/etcd/v2"
 	k8sRegistry "github.com/go-kratos/kratos/contrib/registry/kubernetes/v2"
 	nacosKratos "github.com/go-kratos/kratos/contrib/registry/nacos/v2"
+	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/registry"
+	consulClient "github.com/hashicorp/consul/api"
 	nacosClients "github.com/nacos-group/nacos-sdk-go/clients"
 	nacosConstant "github.com/nacos-group/nacos-sdk-go/common/constant"
 	nacosVo "github.com/nacos-group/nacos-sdk-go/vo"
+	etcdClient "go.etcd.io/etcd/client/v3"
 	k8s "k8s.io/client-go/kubernetes"
 	k8sRest "k8s.io/client-go/rest"
 	k8sTools "k8s.io/client-go/tools/clientcmd"

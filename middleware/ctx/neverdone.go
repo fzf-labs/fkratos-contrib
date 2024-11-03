@@ -6,23 +6,27 @@ import (
 	"time"
 )
 
-// neverDoneCtx never done.
-type neverDoneCtx struct {
+func NewNeverDoneCtx(ctx context.Context) *NeverDoneCtx {
+	return &NeverDoneCtx{Context: ctx}
+}
+
+// NeverDoneCtx never done.
+type NeverDoneCtx struct {
 	context.Context
 }
 
 // Done forbids the context done from parent context.
-func (*neverDoneCtx) Done() <-chan struct{} {
+func (*NeverDoneCtx) Done() <-chan struct{} {
 	return nil
 }
 
 // Deadline forbids the context deadline from parent context.
-func (*neverDoneCtx) Deadline() (deadline time.Time, ok bool) {
+func (*NeverDoneCtx) Deadline() (deadline time.Time, ok bool) {
 	return time.Time{}, false
 }
 
 // Err forbids the context done from parent context.
-func (c *neverDoneCtx) Err() error {
+func (c *NeverDoneCtx) Err() error {
 	return nil
 }
 
@@ -35,7 +39,7 @@ func (c *neverDoneCtx) Err() error {
 func NeverDone() middleware.Middleware {
 	return func(handler middleware.Handler) middleware.Handler {
 		return func(ctx context.Context, req interface{}) (interface{}, error) {
-			ctx = &neverDoneCtx{ctx}
+			ctx = NewNeverDoneCtx(ctx)
 			return handler(ctx, req)
 		}
 	}

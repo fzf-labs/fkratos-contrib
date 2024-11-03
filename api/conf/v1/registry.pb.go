@@ -27,7 +27,7 @@ type Registry struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Type       string               `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	Type       string               `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`             // 类型
 	Consul     *Registry_Consul     `protobuf:"bytes,2,opt,name=consul,proto3" json:"consul,omitempty"`         // Consul
 	Etcd       *Registry_Etcd       `protobuf:"bytes,3,opt,name=etcd,proto3" json:"etcd,omitempty"`             // Etcd
 	Nacos      *Registry_Nacos      `protobuf:"bytes,4,opt,name=nacos,proto3" json:"nacos,omitempty"`           // Nacos
@@ -167,7 +167,7 @@ type Registry_Etcd struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Endpoints []string `protobuf:"bytes,1,rep,name=endpoints,proto3" json:"endpoints,omitempty"`
+	Endpoints []string `protobuf:"bytes,1,rep,name=endpoints,proto3" json:"endpoints,omitempty"` // 端点
 }
 
 func (x *Registry_Etcd) Reset() {
@@ -215,7 +215,7 @@ type Registry_Nacos struct {
 
 	Address              string               `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`                             // 服务端地址
 	Port                 uint64               `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`                                  // 服务端端口
-	NamespaceId          string               `protobuf:"bytes,3,opt,name=namespaceId,proto3" json:"namespaceId,omitempty"`                     //
+	NamespaceId          string               `protobuf:"bytes,3,opt,name=namespaceId,proto3" json:"namespaceId,omitempty"`                     // 命名空间ID
 	LogLevel             string               `protobuf:"bytes,4,opt,name=logLevel,proto3" json:"logLevel,omitempty"`                           // 日志等级
 	CacheDir             string               `protobuf:"bytes,5,opt,name=cacheDir,proto3" json:"cacheDir,omitempty"`                           // 缓存目录
 	LogDir               string               `protobuf:"bytes,6,opt,name=logDir,proto3" json:"logDir,omitempty"`                               // 日志目录

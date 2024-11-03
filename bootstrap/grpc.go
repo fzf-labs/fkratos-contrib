@@ -2,10 +2,11 @@ package bootstrap
 
 import (
 	"context"
+	"github.com/fzf-labs/fkratos-contrib/middleware/limiter"
+	"github.com/fzf-labs/fkratos-contrib/middleware/metrics"
 	"time"
 
 	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
-	"github.com/fzf-labs/fkratos-contrib/middleware/limiter"
 	"github.com/fzf-labs/fkratos-contrib/middleware/logging"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware"
@@ -41,17 +42,17 @@ func NewGrpcClient(
 			if cfg.Client.Grpc.Middleware.GetEnableTracing() {
 				ms = append(ms, tracing.Client())
 			}
-			if cfg.Client.Grpc.Middleware.GetEnableRecovery() {
-				ms = append(ms, recovery.Recovery())
-			}
 			if cfg.Client.Grpc.Middleware.GetEnableLogging() {
 				ms = append(ms, logging.Client(logger))
 			}
-			if cfg.Client.Grpc.Middleware.GetEnableMetadata() {
-				ms = append(ms, metadata.Client())
+			if cfg.Client.Grpc.Middleware.GetEnableRecovery() {
+				ms = append(ms, recovery.Recovery())
 			}
 			if cfg.Client.Grpc.Middleware.GetEnableCircuitBreaker() {
 				ms = append(ms, circuitbreaker.Client())
+			}
+			if cfg.Client.Grpc.Middleware.GetEnableMetadata() {
+				ms = append(ms, metadata.Client())
 			}
 			if cfg.Client.Grpc.Middleware.GetEnableValidate() {
 				ms = append(ms, validate.Validator())
@@ -84,17 +85,20 @@ func NewGrpcServer(
 		if cfg.Server.Grpc.Middleware.GetEnableTracing() {
 			ms = append(ms, tracing.Server())
 		}
-		if cfg.Server.Grpc.Middleware.GetEnableRecovery() {
-			ms = append(ms, recovery.Recovery())
-		}
 		if cfg.Server.Grpc.Middleware.GetEnableLogging() {
 			ms = append(ms, logging.Server(logger))
 		}
-		if cfg.Client.Grpc.Middleware.GetEnableMetadata() {
-			ms = append(ms, metadata.Client())
+		if cfg.Server.Grpc.Middleware.GetEnableRecovery() {
+			ms = append(ms, recovery.Recovery())
+		}
+		if cfg.Server.Grpc.Middleware.GetEnableMetrics() {
+			ms = append(ms, metrics.Server())
 		}
 		if cfg.Server.Grpc.Middleware.GetEnableRateLimiter() {
 			ms = append(ms, limiter.Limit(cfg.Server.Grpc.Middleware.Limiter))
+		}
+		if cfg.Client.Grpc.Middleware.GetEnableMetadata() {
+			ms = append(ms, metadata.Client())
 		}
 		if cfg.Server.Grpc.Middleware.GetEnableValidate() {
 			ms = append(ms, validate.Validator())

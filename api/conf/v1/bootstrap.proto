@@ -16,12 +16,12 @@ option go_package = "github.com/fzf-labs/fkratos-contrib/api/conf/v1;v1";
 // 引导信息
 message Bootstrap {
   string name = 1; // 服务名
-  Server server = 2;
-  Client client = 3;
-  Data data = 4;
-  Tracer trace = 5;
-  Logger logger = 6;
-  Registry registry = 7;
-  RemoteConfig remoteConfig = 8;
-  Business business = 9;
+  Server server = 2; // 服务配置  
+  Client client = 3; // 客户端配置
+  Data data = 4; // 数据配置
+  Tracer trace = 5; // 链路追踪配置
+  Logger logger = 6; // 日志配置
+  Registry registry = 7; // 注册中心配置
+  RemoteConfig remoteConfig = 8; // 远程配置
+  Business business = 9; // 业务配置
 }

@@ -81,8 +81,8 @@ type Client_HTTP struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Timeout    *durationpb.Duration `protobuf:"bytes,1,opt,name=timeout,proto3" json:"timeout,omitempty"` // 超时时间
-	Middleware *Middleware          `protobuf:"bytes,2,opt,name=middleware,proto3" json:"middleware,omitempty"`
+	Timeout    *durationpb.Duration `protobuf:"bytes,1,opt,name=timeout,proto3" json:"timeout,omitempty"`       // 超时时间
+	Middleware *Middleware          `protobuf:"bytes,2,opt,name=middleware,proto3" json:"middleware,omitempty"` // 中间件
 }
 
 func (x *Client_HTTP) Reset() {
@@ -135,8 +135,8 @@ type Client_GRPC struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Timeout    *durationpb.Duration `protobuf:"bytes,1,opt,name=timeout,proto3" json:"timeout,omitempty"` // 超时时间
-	Middleware *Middleware          `protobuf:"bytes,2,opt,name=middleware,proto3" json:"middleware,omitempty"`
+	Timeout    *durationpb.Duration `protobuf:"bytes,1,opt,name=timeout,proto3" json:"timeout,omitempty"`       // 超时时间
+	Middleware *Middleware          `protobuf:"bytes,2,opt,name=middleware,proto3" json:"middleware,omitempty"` // 中间件
 }
 
 func (x *Client_GRPC) Reset() {

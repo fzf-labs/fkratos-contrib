@@ -8,11 +8,11 @@ option go_package = "github.com/fzf-labs/fkratos-contrib/api/conf/v1;v1";
 message Logger {
   // Zap
   message Zap {
-    string filename = 1; //
-    string level = 2; //
-    int32 maxSize = 3; //
-    int32 maxAge = 4; //
-    int32 maxBackups = 5; //
+    string filename = 1; // 文件名
+    string level = 2; // 日志级别
+    int32 maxSize = 3; // 最大大小
+    int32 maxAge = 4; // 最大年龄
+    int32 maxBackups = 5; // 最大备份
   }
   // 阿里云
   message Aliyun {
@@ -30,8 +30,8 @@ message Logger {
     string accessSecret = 4; // 访问密钥
   }
 
-  string type = 1;
-  Zap zap = 2;
-  Aliyun aliyun = 3;
-  Tencent tencent = 4;
+  string type = 1; // 类型
+  Zap zap = 2; // Zap 
+  Aliyun aliyun = 3; // 阿里云
+  Tencent tencent = 4; // 腾讯
 }

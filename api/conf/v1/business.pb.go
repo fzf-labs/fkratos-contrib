@@ -26,7 +26,7 @@ type Business struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Jwt *Business_Jwt `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
+	Jwt *Business_Jwt `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"` // JWT 配置
 }
 
 func (x *Business) Reset() {

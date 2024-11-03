@@ -1,6 +1,8 @@
 package bootstrap
 
 import (
+	"github.com/fzf-labs/fkratos-contrib/middleware/metrics"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http/pprof"
 
 	conf "github.com/fzf-labs/fkratos-contrib/api/conf/v1"
@@ -21,22 +23,25 @@ func NewHTTPServer(cfg *conf.Bootstrap, logger log.Logger, m ...middleware.Middl
 	var opts []http.ServerOption
 	var ms []middleware.Middleware
 	if cfg.Server != nil && cfg.Server.Http != nil && cfg.Server.Http.Middleware != nil {
-		if cfg.Server.Http.Middleware.GetEnableTracing() {
+		if cfg.Server.Grpc.Middleware.GetEnableTracing() {
 			ms = append(ms, tracing.Server())
 		}
-		if cfg.Server.Http.Middleware.GetEnableRecovery() {
-			ms = append(ms, recovery.Recovery())
-		}
-		if cfg.Server.Http.Middleware.GetEnableLogging() {
+		if cfg.Server.Grpc.Middleware.GetEnableLogging() {
 			ms = append(ms, logging.Server(logger))
 		}
-		if cfg.Client.Http.Middleware.GetEnableMetadata() {
+		if cfg.Server.Grpc.Middleware.GetEnableRecovery() {
+			ms = append(ms, recovery.Recovery())
+		}
+		if cfg.Server.Grpc.Middleware.GetEnableMetrics() {
+			ms = append(ms, metrics.Server())
+		}
+		if cfg.Server.Grpc.Middleware.GetEnableRateLimiter() {
+			ms = append(ms, limiter.Limit(cfg.Server.Grpc.Middleware.Limiter))
+		}
+		if cfg.Client.Grpc.Middleware.GetEnableMetadata() {
 			ms = append(ms, metadata.Client())
 		}
-		if cfg.Server.Http.Middleware.GetEnableRateLimiter() {
-			ms = append(ms, limiter.Limit(cfg.Server.Http.Middleware.Limiter))
-		}
-		if cfg.Server.Http.Middleware.GetEnableValidate() {
+		if cfg.Server.Grpc.Middleware.GetEnableValidate() {
 			ms = append(ms, validate.Validator())
 		}
 	}
@@ -59,6 +64,9 @@ func NewHTTPServer(cfg *conf.Bootstrap, logger log.Logger, m ...middleware.Middl
 		opts = append(opts, http.Timeout(cfg.Server.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
+	if cfg.Server.Http.Middleware.GetEnableMetrics() {
+		registerHttpMetrics(srv)
+	}
 	if cfg.Server.Http.GetEnablePprof() {
 		registerHttpPprof(srv)
 	}
@@ -78,4 +86,9 @@ func registerHttpPprof(s *http.Server) {
 	s.HandleFunc("/debug/pprof/heap", pprof.Handler("heap").ServeHTTP)
 	s.HandleFunc("/debug/pprof/mutex", pprof.Handler("mutex").ServeHTTP)
 	s.HandleFunc("/debug/pprof/threadcreate", pprof.Handler("threadcreate").ServeHTTP)
+}
+
+// registerHttpMetrics 注册http metrics
+func registerHttpMetrics(s *http.Server) {
+	s.Handle("/metrics", promhttp.Handler())
 }

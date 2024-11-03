@@ -12,13 +12,13 @@ message Client {
   // HTTP
   message HTTP {
     google.protobuf.Duration timeout = 1; // 超时时间
-    Middleware middleware = 2;
+    Middleware middleware = 2; // 中间件
   }
 
   // gPRC
   message GRPC {
     google.protobuf.Duration timeout = 1; // 超时时间
-    Middleware middleware = 2;
+    Middleware middleware = 2; // 中间件  
   }
 
   HTTP http = 1; // HTTP服务

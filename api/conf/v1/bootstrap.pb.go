@@ -26,15 +26,15 @@ type Bootstrap struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Name         string        `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // 服务名
-	Server       *Server       `protobuf:"bytes,2,opt,name=server,proto3" json:"server,omitempty"`
-	Client       *Client       `protobuf:"bytes,3,opt,name=client,proto3" json:"client,omitempty"`
-	Data         *Data         `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`
-	Trace        *Tracer       `protobuf:"bytes,5,opt,name=trace,proto3" json:"trace,omitempty"`
-	Logger       *Logger       `protobuf:"bytes,6,opt,name=logger,proto3" json:"logger,omitempty"`
-	Registry     *Registry     `protobuf:"bytes,7,opt,name=registry,proto3" json:"registry,omitempty"`
-	RemoteConfig *RemoteConfig `protobuf:"bytes,8,opt,name=remoteConfig,proto3" json:"remoteConfig,omitempty"`
-	Business     *Business     `protobuf:"bytes,9,opt,name=business,proto3" json:"business,omitempty"`
+	Name         string        `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                 // 服务名
+	Server       *Server       `protobuf:"bytes,2,opt,name=server,proto3" json:"server,omitempty"`             // 服务配置
+	Client       *Client       `protobuf:"bytes,3,opt,name=client,proto3" json:"client,omitempty"`             // 客户端配置
+	Data         *Data         `protobuf:"bytes,4,opt,name=data,proto3" json:"data,omitempty"`                 // 数据配置
+	Trace        *Tracer       `protobuf:"bytes,5,opt,name=trace,proto3" json:"trace,omitempty"`               // 链路追踪配置
+	Logger       *Logger       `protobuf:"bytes,6,opt,name=logger,proto3" json:"logger,omitempty"`             // 日志配置
+	Registry     *Registry     `protobuf:"bytes,7,opt,name=registry,proto3" json:"registry,omitempty"`         // 注册中心配置
+	RemoteConfig *RemoteConfig `protobuf:"bytes,8,opt,name=remoteConfig,proto3" json:"remoteConfig,omitempty"` // 远程配置
+	Business     *Business     `protobuf:"bytes,9,opt,name=business,proto3" json:"business,omitempty"`         // 业务配置
 }
 
 func (x *Bootstrap) Reset() {

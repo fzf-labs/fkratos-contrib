@@ -26,10 +26,10 @@ type Logger struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Type    string          `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	Zap     *Logger_Zap     `protobuf:"bytes,2,opt,name=zap,proto3" json:"zap,omitempty"`
-	Aliyun  *Logger_Aliyun  `protobuf:"bytes,3,opt,name=aliyun,proto3" json:"aliyun,omitempty"`
-	Tencent *Logger_Tencent `protobuf:"bytes,4,opt,name=tencent,proto3" json:"tencent,omitempty"`
+	Type    string          `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`       // 类型
+	Zap     *Logger_Zap     `protobuf:"bytes,2,opt,name=zap,proto3" json:"zap,omitempty"`         // Zap
+	Aliyun  *Logger_Aliyun  `protobuf:"bytes,3,opt,name=aliyun,proto3" json:"aliyun,omitempty"`   // 阿里云
+	Tencent *Logger_Tencent `protobuf:"bytes,4,opt,name=tencent,proto3" json:"tencent,omitempty"` // 腾讯
 }
 
 func (x *Logger) Reset() {
@@ -96,11 +96,11 @@ type Logger_Zap struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Filename   string `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`      //
-	Level      string `protobuf:"bytes,2,opt,name=level,proto3" json:"level,omitempty"`            //
-	MaxSize    int32  `protobuf:"varint,3,opt,name=maxSize,proto3" json:"maxSize,omitempty"`       //
-	MaxAge     int32  `protobuf:"varint,4,opt,name=maxAge,proto3" json:"maxAge,omitempty"`         //
-	MaxBackups int32  `protobuf:"varint,5,opt,name=maxBackups,proto3" json:"maxBackups,omitempty"` //
+	Filename   string `protobuf:"bytes,1,opt,name=filename,proto3" json:"filename,omitempty"`      // 文件名
+	Level      string `protobuf:"bytes,2,opt,name=level,proto3" json:"level,omitempty"`            // 日志级别
+	MaxSize    int32  `protobuf:"varint,3,opt,name=maxSize,proto3" json:"maxSize,omitempty"`       // 最大大小
+	MaxAge     int32  `protobuf:"varint,4,opt,name=maxAge,proto3" json:"maxAge,omitempty"`         // 最大年龄
+	MaxBackups int32  `protobuf:"varint,5,opt,name=maxBackups,proto3" json:"maxBackups,omitempty"` // 最大备份
 }
 
 func (x *Logger_Zap) Reset() {

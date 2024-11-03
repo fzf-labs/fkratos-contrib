@@ -10,16 +10,13 @@ import (
 func Bootstrap(service *Service) (*conf.Bootstrap, log.Logger, registry.Registrar, registry.Discovery) {
 	// init command
 	flags := NewCommand()
-
 	// load configs
 	cfg := LoadBootstrapConfig(flags.Conf)
 	if cfg == nil {
 		panic("load config failed")
 	}
-
 	// init logger
 	ll := NewLoggerProvider(cfg.Logger, service)
-
 	// init registrar
 	reg, dis := NewRegistryAndDiscovery(cfg.Registry)
 	// init tracer
@@ -27,6 +24,5 @@ func Bootstrap(service *Service) (*conf.Bootstrap, log.Logger, registry.Registra
 	if err != nil {
 		panic(err)
 	}
-
 	return cfg, ll, reg, dis
 }
